@@ -7,56 +7,111 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## Instalação do Projeto ...
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+ #Instalando o Composer:
+ 
+     $ composer install --no-scripts
+     
+#Copie o arquivo .env.example
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+    $ cp .env.example .env
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+#Crie uma key para o projeto
 
-## Learning Laravel
+    $ php artisan key:generate
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+#Configurar o o arquivo .env com base no seu Banco de Dados
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
+#Execute as migrations
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+    $ php artisan migrate --seed
+    
+<hr>
 
-### Premium Partners
+## Configurando o JWT Token ...
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
+#Criando uma nova key para o arquivo .env
 
-## Contributing
+    $ php artisan jwt:secret
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+<hr>
 
-## Code of Conduct
+## Criando um Login via Tinker
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#Iniciando o tinker
 
-## Security Vulnerabilities
+    $ php artisan tinker
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+#Acessando o user
 
-## License
+        $user = new App\Models\User();
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+#Definindo os dados de login
+
+        $user->name = 'Teste';
+        $user->email = 'teste@teste.com';
+        $user->password = bcrypt('1234');
+
+#Adicionando ao Banco de Dados
+
+        $user->save();
+        
+        // Caso obtenha sucesso na gravação dos dados, retornará 'true' ...
+     
+<hr>
+
+## Obtendo o Token via Login ...
+
+#Como exemplo utilizei o Postman -> Download: https://www.postman.com/downloads/
+
+<hr>
+
+#Acesse a url abaixo para realizar o login (method -> POST)
+    
+    http://127.0.0.1:8000/api/login
+    
+#Na aba Headers adicione
+
+    KEY -> Accept
+    VALUE -> application/json
+    
+#Na aba Body coloque os dados cadastrados no Banco de Dados
+    
+    // Utilize o x-www-form-urlencoded
+    
+        KEY -> email | VALUE -> teste@teste.com
+        KEY -> password | VALUE -> 1234
+    
+    // Caso tenha sucesso retornará o Token de acesso
+
+
+#Com o token já é possível utilizar as rotas protegidas .. api/auth/ ..
+
+        // (method -> POST)
+
+        exemplo: http://127.0.0.1:8000/api/auth/marca
+        
+
+#Na aba Headers adicione adicione o token (Utilize o Bearer na frente e em seguida coloque o token adquirido via login)
+
+    Key -> Authorization | Value -> Bearer 'TOKEN'
+    Key -> Accept | Value -> application/json
+    Key -> Content-Type | Value -> application/json
+
+#Assim ja é possível cadastrar marcas na aba Body
+
+exemplo:
+
+    // Utilize o form-data, pois será anexados arquivos
+
+        KEY -> nome | VALUE -> toyota
+        KEY -> imagem | VALUE -> toyota.jpg
+    
+    // No compato de Imagem altere o tipo para 'files'
+
+     
+     
+     
+
