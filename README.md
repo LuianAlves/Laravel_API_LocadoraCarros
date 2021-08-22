@@ -104,12 +104,12 @@
 
 exemplo:
 
-    // Utilize o form-data, pois será anexados arquivos
+    // Utilize o form-data, pois arquivos serão anexados
 
         KEY -> nome | VALUE -> toyota
         KEY -> imagem | VALUE -> toyota.jpg
     
-    // No compato de Imagem altere o tipo para 'files'
+    // No campo 'imagem' altere o tipo para 'files'
 
      
      
